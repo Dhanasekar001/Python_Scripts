@@ -27,7 +27,7 @@ app = Flask(__name__)
 def create_jira():
     """Handles GitHub webhook and creates a Jira issue if commit message contains '/createJiraIssue'."""
     
-    # ✅ Fix: Use Flask's request.get_json(), not requests.get_json()
+    # Get the JSON data from the request
     data = request.get_json()
 
     if not data or "comment" not in data:
@@ -35,7 +35,7 @@ def create_jira():
 
     commit_message = data["comment"]["body"]
 
-    # ✅ Fix: `any()` requires an iterable, but you're checking a single string
+    # Check if the commit message contains '/createJiraIssue' and create a Jira issue if it does
     if "/createJiraIssue" in commit_message:
         payload = json.dumps({
             "fields": {
